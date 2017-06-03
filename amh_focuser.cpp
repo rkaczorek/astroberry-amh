@@ -75,7 +75,7 @@ void ISSnoopDevice (XMLEle *root)
 IndiAMHFocuser::IndiAMHFocuser()
 {
 	setVersion(MAJOR_VERSION,MINOR_VERSION);
-    //setFocuserConnection(0);
+	setFocuserConnection(CONNECTION_NONE);
 }
 
 IndiAMHFocuser::~IndiAMHFocuser()
@@ -453,12 +453,12 @@ int IndiAMHFocuser::StepperMotor(int steps, FocusDirection direction)
 		if ( MotorDirS[1].s == ISS_ON )
 		{
 			//clockwise out
-			myStepper.step(steps, FORWARD,  DOUBLE);
+			myStepper.step(steps, FORWARD,  SINGLE);
 		}
 		else
 		{
 			//clockwise in
-			myStepper.step(steps, BACKWARD,  DOUBLE);
+			myStepper.step(steps, BACKWARD,  SINGLE);
 		}
 	}
 	else
@@ -466,17 +466,19 @@ int IndiAMHFocuser::StepperMotor(int steps, FocusDirection direction)
 		if ( MotorDirS[1].s == ISS_ON )
 		{
 			//clockwise in
-			myStepper.step(steps, BACKWARD,  DOUBLE);
+			myStepper.step(steps, BACKWARD,  SINGLE);
 		}
 		else
 		{
 			//clockwise out
-			myStepper.step(steps, FORWARD,  DOUBLE);
+			myStepper.step(steps, FORWARD,  SINGLE);
 		}
 	}
 
+	// zero all PWM ports to release motor
+	hat.resetAll();
+
 	// update position for a client
-	
 	if ( dir == FOCUS_INWARD )
 		FocusAbsPosN[0].value -= steps;
 	if ( dir == FOCUS_OUTWARD )
