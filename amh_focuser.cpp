@@ -125,7 +125,7 @@ bool IndiAMHFocuser::initProperties()
 	IUFillSwitch(&MotorDirS[1],"REVERSE","Reverse",ISS_OFF);
 	IUFillSwitchVector(&MotorDirSP,MotorDirS,2,getDeviceName(),"MOTOR_DIR","Motor Dir",OPTIONS_TAB,IP_RW,ISR_1OFMANY,60,IPS_OK);
 
-	IUFillNumber(&FocusBacklashN[0], "FOCUS_BACKLASH_VALUE", "Steps", "%0.0f", 0, 100, 1, 0);
+	IUFillNumber(&FocusBacklashN[0], "FOCUS_BACKLASH_VALUE", "Steps", "%0.0f", 0, 500, 1, 0);
 	IUFillNumberVector(&FocusBacklashNP, FocusBacklashN, 1, getDeviceName(), "FOCUS_BACKLASH", "Backlash", OPTIONS_TAB, IP_RW, 0, IPS_IDLE);
 
 	IUFillSwitch(&FocusParkingS[0],"FOCUS_PARKON","Enable",ISS_ON);
