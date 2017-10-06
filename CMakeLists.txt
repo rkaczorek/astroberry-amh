@@ -8,7 +8,7 @@ PROJECT(indi-amh CXX C)
 include(ExternalProject)
 
 set (VERSION_MAJOR 0)
-set (VERSION_MINOR 1)
+set (VERSION_MINOR 2)
 
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake_modules/")
 set(BIN_INSTALL_DIR "${CMAKE_INSTALL_PREFIX}/bin")

@@ -18,13 +18,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <string.h>
 #include <memory>
 #include <typeinfo>
 
 #include "amh_focuser.h"
 
 #define MAJOR_VERSION 0
-#define MINOR_VERSION 1
+#define MINOR_VERSION 2
 
 #define FOCUSNAMEF "Motor HAT Focuser"
 
@@ -102,8 +103,8 @@ bool IndiAMHFocuser::Disconnect()
 	// park focuser
 	if ( FocusParkingS[0].s == ISS_ON )
 	{
-		IDMessage(getDeviceName(), "Adafruit Motor HAT Focuser is parking...");
-		MoveAbsFocuser(FocusAbsPosN[0].min);
+	    IDMessage(getDeviceName(), "Adafruit Motor HAT Focuser is parking...");
+	    MoveAbsFocuser(FocusAbsPosN[0].min);
 	}
 
 	// close device
@@ -183,25 +184,25 @@ bool IndiAMHFocuser::updateProperties()
 
     if (isConnected())
     {
-		defineNumber(&FocusAbsPosNP);
-		defineNumber(&FocusRelPosNP);
-		defineSwitch(&FocusMotionSP);
-		defineSwitch(&FocusParkingSP);
-		defineSwitch(&FocusResetSP);
-		defineSwitch(&MotorDirSP);
-		defineNumber(&MotorSpeedNP);
-		defineNumber(&FocusBacklashNP);
+	defineNumber(&FocusAbsPosNP);
+	defineNumber(&FocusRelPosNP);
+	defineSwitch(&FocusMotionSP);
+	defineSwitch(&FocusParkingSP);
+	defineSwitch(&FocusResetSP);
+	defineSwitch(&MotorDirSP);
+	defineNumber(&MotorSpeedNP);
+	defineNumber(&FocusBacklashNP);
     }
     else
     {
-		deleteProperty(FocusAbsPosNP.name);
-		deleteProperty(FocusRelPosNP.name);
-		deleteProperty(FocusMotionSP.name);
-		deleteProperty(FocusParkingSP.name);
-		deleteProperty(FocusResetSP.name);
-		deleteProperty(MotorDirSP.name);
-		deleteProperty(MotorSpeedNP.name);
-		deleteProperty(FocusBacklashNP.name);
+	deleteProperty(FocusAbsPosNP.name);
+	deleteProperty(FocusRelPosNP.name);
+	deleteProperty(FocusMotionSP.name);
+	deleteProperty(FocusParkingSP.name);
+	deleteProperty(FocusResetSP.name);
+	deleteProperty(MotorDirSP.name);
+	deleteProperty(MotorSpeedNP.name);
+	deleteProperty(FocusBacklashNP.name);
     }
 
     return true;
@@ -229,19 +230,19 @@ bool IndiAMHFocuser::ISNewNumber (const char *dev, const char *name, double valu
         // handle focus relative position
         if (!strcmp(name, FocusRelPosNP.name))
         {
-			IUUpdateNumber(&FocusRelPosNP,values,names,n);
-			FocusRelPosNP.s=IPS_OK;
-			IDSetNumber(&FocusRelPosNP, NULL);
+	    IUUpdateNumber(&FocusRelPosNP,values,names,n);
+	    FocusRelPosNP.s=IPS_OK;
+	    IDSetNumber(&FocusRelPosNP, NULL);
 
-			//FOCUS_INWARD
+	    //FOCUS_INWARD
             if ( FocusMotionS[0].s == ISS_ON )
-				MoveRelFocuser(FOCUS_INWARD, FocusRelPosN[0].value);
+		MoveRelFocuser(FOCUS_INWARD, FocusRelPosN[0].value);
 
-			//FOCUS_OUTWARD
+	    //FOCUS_OUTWARD
             if ( FocusMotionS[1].s == ISS_ON )
-				MoveRelFocuser(FOCUS_OUTWARD, FocusRelPosN[0].value);
+		MoveRelFocuser(FOCUS_OUTWARD, FocusRelPosN[0].value);
 
-			return true;
+	   return true;
         }
 
         // handle step delay
@@ -281,63 +282,62 @@ bool IndiAMHFocuser::ISNewSwitch (const char *dev, const char *name, ISState *st
 
 			//Preset 1
             if ( PresetGotoS[0].s == ISS_ON )
-				MoveAbsFocuser(PresetN[0].value);
+			MoveAbsFocuser(PresetN[0].value);
 
 			//Preset 2
             if ( PresetGotoS[1].s == ISS_ON )
-				MoveAbsFocuser(PresetN[1].value);
+			MoveAbsFocuser(PresetN[1].value);
 
 			//Preset 2
             if ( PresetGotoS[2].s == ISS_ON )
-				MoveAbsFocuser(PresetN[2].value);
+			MoveAbsFocuser(PresetN[2].value);
 
-			PresetGotoS[0].s = ISS_OFF;
-			PresetGotoS[1].s = ISS_OFF;
-			PresetGotoS[2].s = ISS_OFF;
-			PresetGotoSP.s = IPS_OK;
-            IDSetSwitch(&PresetGotoSP, NULL);
+	    PresetGotoS[0].s = ISS_OFF;
+	    PresetGotoS[1].s = ISS_OFF;
+	    PresetGotoS[2].s = ISS_OFF;
+	    PresetGotoSP.s = IPS_OK;
+	    IDSetSwitch(&PresetGotoSP, NULL);
             return true;
         }
 
         // handle focus reset
         if(!strcmp(name, FocusResetSP.name))
         {
-			IUUpdateSwitch(&FocusResetSP, states, names, n);
+	    IUUpdateSwitch(&FocusResetSP, states, names, n);
 
             if ( FocusResetS[0].s == ISS_ON && FocusAbsPosN[0].value == FocusAbsPosN[0].min  )
             {
-				FocusAbsPosN[0].value = (int)MAX_STEPS/100;
-				IDSetNumber(&FocusAbsPosNP, NULL);
-				MoveAbsFocuser(0);
-			}
+		FocusAbsPosN[0].value = (int)MAX_STEPS/100;
+		IDSetNumber(&FocusAbsPosNP, NULL);
+		MoveAbsFocuser(0);
+	    }
+
             FocusResetS[0].s = ISS_OFF;
             IDSetSwitch(&FocusResetSP, NULL);
-			return true;
-		}
+	    return true;
+	}
 
         // handle parking mode
         if(!strcmp(name, FocusParkingSP.name))
         {
-			IUUpdateSwitch(&FocusParkingSP, states, names, n);
-			FocusParkingSP.s = IPS_BUSY;
-			IDSetSwitch(&FocusParkingSP, NULL);
-
-			FocusParkingSP.s = IPS_OK;
-			IDSetSwitch(&FocusParkingSP, NULL);
-			return true;
-		}
+	    IUUpdateSwitch(&FocusParkingSP, states, names, n);
+	    FocusParkingSP.s = IPS_BUSY;
+	    IDSetSwitch(&FocusParkingSP, NULL);
+	    FocusParkingSP.s = IPS_OK;
+	    IDSetSwitch(&FocusParkingSP, NULL);
+	    return true;
+	}
 
         // handle motor direction
         if(!strcmp(name, MotorDirSP.name))
         {
-			IUUpdateSwitch(&MotorDirSP, states, names, n);
-			MotorDirSP.s = IPS_BUSY;
-			IDSetSwitch(&MotorDirSP, NULL);
-
-			MotorDirSP.s = IPS_OK;
-			IDSetSwitch(&MotorDirSP, NULL);
-			return true;
-		}
+	    IUUpdateSwitch(&MotorDirSP, states, names, n);
+	    MotorDirSP.s = IPS_BUSY;
+	    IDSetSwitch(&MotorDirSP, NULL);
+	    MotorDirSP.s = IPS_OK;
+	    IDSetSwitch(&MotorDirSP, NULL);
+	    return true;
+	}
 
         // handle focus abort - TODO
 /*
@@ -400,7 +400,7 @@ IPState IndiAMHFocuser::MoveAbsFocuser(int targetTicks)
 
     if (targetTicks == FocusAbsPosN[0].value)
     {
-        // IDMessage(getDeviceName(), "Adafruit Motor HAT Focuser already in the requested position.");
+        IDMessage(getDeviceName(), "Adafruit Motor HAT Focuser already in the requested position.");
         return IPS_OK;
     }
 
@@ -411,17 +411,17 @@ IPState IndiAMHFocuser::MoveAbsFocuser(int targetTicks)
 	// check last motion direction for backlash triggering
 	FocusDirection lastdir = dir;
 
-    // set direction
-    if (targetTicks > FocusAbsPosN[0].value)
-    {
-		dir = FOCUS_OUTWARD;
-		IDMessage(getDeviceName() , "Adafruit Motor HAT Focuser is moving outward by %d", abs(targetTicks - FocusAbsPosN[0].value));
-    }
-    else
-    {
-		dir = FOCUS_INWARD;
-		IDMessage(getDeviceName() , "Adafruit Motor HAT Focuser is moving inward by %d", abs(targetTicks - FocusAbsPosN[0].value));
-    }
+	// set direction
+	if (targetTicks > FocusAbsPosN[0].value)
+	{
+	    dir = FOCUS_OUTWARD;
+	    IDMessage(getDeviceName() , "Adafruit Motor HAT Focuser is moving outward by %d", abs(targetTicks - FocusAbsPosN[0].value));
+	}
+	else
+	{
+	    dir = FOCUS_INWARD;
+	    IDMessage(getDeviceName() , "Adafruit Motor HAT Focuser is moving inward by %d", abs(targetTicks - FocusAbsPosN[0].value));
+	}
 
 	// if direction changed do backlash adjustment - TO DO
 	if ( FocusBacklashN[0].value != 0 && lastdir != dir && FocusAbsPosN[0].value != 0 )
@@ -437,11 +437,12 @@ IPState IndiAMHFocuser::MoveAbsFocuser(int targetTicks)
 	StepperMotor(ticks, dir);
 
 	// update abspos value and status
+	FocusAbsPosN[0].value = targetTicks;
 	IDSetNumber(&FocusAbsPosNP, "Adafruit Motor HAT Focuser moved to position %0.0f", FocusAbsPosN[0].value );
 	FocusAbsPosNP.s = IPS_OK;
 	IDSetNumber(&FocusAbsPosNP, NULL);
 
-    return IPS_OK;
+	return IPS_OK;
 }
 
 int IndiAMHFocuser::StepperMotor(int steps, FocusDirection direction)
@@ -477,14 +478,6 @@ int IndiAMHFocuser::StepperMotor(int steps, FocusDirection direction)
 
 	// zero all PWM ports to release motor
 	hat.resetAll();
-
-	// update position for a client
-	if ( dir == FOCUS_INWARD )
-		FocusAbsPosN[0].value -= steps;
-	if ( dir == FOCUS_OUTWARD )
-		FocusAbsPosN[0].value += steps;
-
-	IDSetNumber(&FocusAbsPosNP, NULL);
 
 	return 0;
 }
