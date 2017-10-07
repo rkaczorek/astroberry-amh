@@ -454,12 +454,12 @@ int IndiAMHFocuser::StepperMotor(int steps, FocusDirection direction)
 		if ( MotorDirS[1].s == ISS_ON )
 		{
 			//clockwise out
-			myStepper.step(steps, FORWARD,  SINGLE);
+			myStepper.step(steps, FORWARD,  DOUBLE);
 		}
 		else
 		{
 			//clockwise in
-			myStepper.step(steps, BACKWARD,  SINGLE);
+			myStepper.step(steps, BACKWARD,  DOUBLE);
 		}
 	}
 	else
@@ -467,12 +467,12 @@ int IndiAMHFocuser::StepperMotor(int steps, FocusDirection direction)
 		if ( MotorDirS[1].s == ISS_ON )
 		{
 			//clockwise in
-			myStepper.step(steps, BACKWARD,  SINGLE);
+			myStepper.step(steps, BACKWARD,  DOUBLE);
 		}
 		else
 		{
 			//clockwise out
-			myStepper.step(steps, FORWARD,  SINGLE);
+			myStepper.step(steps, FORWARD,  DOUBLE);
 		}
 	}
 
