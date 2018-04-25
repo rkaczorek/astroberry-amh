@@ -76,7 +76,7 @@ void ISSnoopDevice (XMLEle *root)
 IndiAMHFocuser::IndiAMHFocuser()
 {
 	setVersion(MAJOR_VERSION,MINOR_VERSION);
-	setFocuserConnection(CONNECTION_NONE);
+//	setFocuserConnection(CONNECTION_NONE);
 }
 
 IndiAMHFocuser::~IndiAMHFocuser()
@@ -158,7 +158,7 @@ bool IndiAMHFocuser::initProperties()
 	IUFillSwitchVector(&PresetGotoSP, PresetGotoS, 3, getDeviceName(), "Presets Goto", "Goto", MAIN_CONTROL_TAB,IP_RW,ISR_1OFMANY,60,IPS_OK);
 
 	// set capabilities
-	SetFocuserCapability(FOCUSER_CAN_ABS_MOVE | FOCUSER_CAN_REL_MOVE);
+//	SetFocuserCapability(FOCUSER_CAN_ABS_MOVE | FOCUSER_CAN_REL_MOVE);
 
 	// set default values
 	dir = FOCUS_OUTWARD;
