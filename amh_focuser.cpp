@@ -21,11 +21,9 @@
 #include <string.h>
 #include <memory>
 #include <typeinfo>
+#include "config.h"
 
 #include "amh_focuser.h"
-
-#define MAJOR_VERSION 0
-#define MINOR_VERSION 2
 
 #define FOCUSNAMEF "Motor HAT Focuser"
 
@@ -75,7 +73,7 @@ void ISSnoopDevice (XMLEle *root)
 
 IndiAMHFocuser::IndiAMHFocuser()
 {
-	setVersion(MAJOR_VERSION,MINOR_VERSION);
+	setVersion(VERSION_MAJOR,VERSION_MINOR);
 	FI::SetCapability(FOCUSER_CAN_ABS_MOVE | FOCUSER_CAN_REL_MOVE);
 }
 

@@ -1,0 +1,25 @@
+Source: indi-astroberry-amh
+Section: science
+Priority: extra
+Maintainer: Radek Kaczorek <rkaczorek@gmail.com>
+Build-Depends: debhelper (>= 9), cdbs, cmake (>= 2.4.7), libindi-dev, wiringpi
+Standards-Version: 3.9.1
+
+Package: indi-astroberry-amh
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, libindi1
+Description: INDI Driver for Adafruit Motor HAT
+ provides focuser driver for Adafruit Motor HAT addon board to Raspberry Pi
+ .
+ This driver is compatible with any INDI client such as KStars or Xephem.
+
+Package: indi-astroberry-amh-dbg
+Priority: extra
+Section: debug
+Architecture: any
+Depends: indi-astroberry-piface (= ${binary:Version}), ${misc:Depends}
+Description: INDI Driver for Adafruit Motor HAT
+ provides focuser driver for Adafruit Motor HAT addon board to Raspberry Pi
+ .
+ This driver is compatible with any INDI client such as KStars or Xephem.
+

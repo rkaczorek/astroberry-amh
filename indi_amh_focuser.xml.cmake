@@ -3,7 +3,7 @@
 <devGroup group="Focusers">
         <device label="Motor HAT Focuser">
                 <driver name="Motor HAT Focuser">indi_amh_focuser</driver>
-                <version>0.2</version>
+                <version>@VERSION_MAJOR@.@VERSION_MINOR@</version>
         </device>
 </devGroup>
 </driversList>
