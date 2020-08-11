@@ -20,7 +20,7 @@ mkdir build
 cd build
 cmake ..
 make
-make install
+sudo make install
 ```
 # How to use it?
 Start your INDI server with Astroberry Motor HAT driver:
